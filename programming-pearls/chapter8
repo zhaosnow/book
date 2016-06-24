@@ -1,0 +1,26 @@
+＃求解最大子数组和问题
+1.brutal算法O(n3)
+2.使用额外的空间存储中间结果则复杂度为O(n2)
+3.使用分治算法，算法复杂度为O(nlogn).
+算法思想大致如下：
+  把问题分为两个部分，递归的解决子问题，假设问题n分为a，b两个部分。则最大和必然出现在a或者b中，或者出现在包含分割点的最大
+和mid中。这样递归求解：T(n)=2T(n/2)+O(n).（注：开始的时候我立马想到分别计算a，b，mid中的最大值，然后返回。然而这很明显不是
+最优代码。实际上只需要计算mid就可以了）详细代码如下：
+  float  maxsum(int l,int r){
+      if(l>r)return 0;
+      if(l==r)return max(0,x[l]);
+      int m=(l+r)/2;
+      float sum=lsum=rsum=0;
+      for(int i=m;i>=l;i--){
+          sum+=x[i];
+          lsum=max(lsum,sum);
+      }
+      sum=0;
+      for(int i=m+1;i<r;i++){
+        sum+=x[i];
+        rsum=max(rsum,sum);
+      }
+      return max(lsum+rsum,max(maxsum(l,m),maxsum(m+1,r)));
+  }
+4.最优算法时间为O(n)明显的动态规划，我就不写代码了。
+＃注：算法的求解就是这样一步步的从brutal到最优的一个过程
